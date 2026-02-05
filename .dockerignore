@@ -1,0 +1,21 @@
+# Dependencies (reinstalled in image)
+node_modules/
+
+# Git and IDE
+.git
+.gitignore
+.idea/
+.vscode/
+
+# Environment (use -e or secrets at runtime)
+.env
+.env.*
+
+# Database (use volume; do not bake in)
+data.db
+*.db
+
+# Docs and misc
+*.md
+*.log
+.DS_Store

@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Database
+data.db
+*.db
+data.bot.lock
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs and OS
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build / output
+dist/
+build/
+*.tsbuildinfo
