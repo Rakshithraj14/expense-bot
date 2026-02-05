@@ -45,23 +45,25 @@ async function handleMessage(chatId: string, text: string) {
   if (!text) return
 
   try {
-    if (text === '/start' || text === 'hi' || text === 'help') {
-      await bot.sendMessage(chatId, `
- Expense Tracker Bot
-
-Examples:
-- 500 groceries
-- paid 200 medical
-- received salary 30000
-- grandfather gave 1000
-- balance
-- last 2 months summary
-- last 1 month family summary
-`.trim(), { parse_mode: 'Markdown' })
+    const lower = text.toLowerCase()
+    if (lower === '/start') {
+      await bot.sendMessage(chatId, 'Welcome aboard! From now on, every berry you spend is under my watch. Let\'s protect your treasure')
+      return
+    }
+    if (lower === 'hi') {
+      await bot.sendMessage(chatId, 'Hi~ If you\'re here, it means money is involved. I like that already')
+      return
+    }
+    if (lower === 'hello') {
+      await bot.sendMessage(chatId, 'Hello! Open your wallet carefully… I\'m keeping track of everything.')
+      return
+    }
+    if (lower === 'help') {
+      await bot.sendMessage(chatId, 'Lost with your expenses? Relax. Tell me what you spent, and I\'ll chart your money like a perfect map')
       return
     }
 
-    if (text === 'balance') {
+    if (lower === 'balance') {
       const rows = getBalance(chatId)
       const income = rows.find(r => r.type === 'income')?.total ?? 0
       const expense = rows.find(r => r.type === 'expense')?.total ?? 0
@@ -76,9 +78,9 @@ Net: ${income - expense}
       return
     }
 
-    if (text.includes('summary')) {
+    if (lower.includes('summary')) {
       const months = Number(text.match(/\d+/)?.[0] ?? 1)
-      const familyOnly = text.includes('family')
+      const familyOnly = lower.includes('family')
 
       const rows = getMonthlySummary(chatId, months, familyOnly)
 
@@ -123,11 +125,11 @@ Date: ${parsed.date}
 
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err)
-    await bot.sendMessage(chatId, `
-Error
-
-${message}
-`.trim(), { parse_mode: 'Markdown' })
+    if (message.includes('No amount found')) {
+      await bot.sendMessage(chatId, 'Hmm? If it\'s about money, I\'m listening. If not… make it about money.')
+    } else {
+      await bot.sendMessage(chatId, `Error\n\n${message}`)
+    }
   }
 }
 
