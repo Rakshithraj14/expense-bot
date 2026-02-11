@@ -58,6 +58,7 @@ export function parseInput(text: string): ParsedInput {
 
   const reason = text.replace(amountMatch[0], '').trim()
   const date = parseDateFromText(text) ?? todayISO()
+  const paymentMode = lower.includes('cash') ? 'CASH' : 'UPI'
 
   return {
     type,
@@ -65,6 +66,7 @@ export function parseInput(text: string): ParsedInput {
     category,
     reason: reason || undefined,
     date,
-    isFamily
+    isFamily,
+    paymentMode
   }
 }

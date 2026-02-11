@@ -1,4 +1,5 @@
 export type TransactionType = 'income' | 'expense'
+export type PaymentMode = 'UPI' | 'CASH'
 
 export interface ParsedInput {
   type: TransactionType
@@ -7,4 +8,5 @@ export interface ParsedInput {
   reason?: string
   date: string
   isFamily: boolean
+  paymentMode: PaymentMode
 }
