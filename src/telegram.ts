@@ -13,6 +13,16 @@ export function createBot(token: string) {
       return api('sendMessage', { chat_id: chatId, text, ...options })
     },
 
+    sendDocument(chatId: string, content: string, filename: string) {
+      const form = new FormData()
+      form.append('chat_id', chatId)
+      form.append('document', new Blob([content], { type: 'text/csv' }), filename)
+      return fetch(`${BASE}/bot${token}/sendDocument`, {
+        method: 'POST',
+        body: form,
+      }).then((r) => r.json() as Promise<{ ok: boolean }>)
+    },
+
     async *poll() {
       let offset = 0
       const seen = new Set<string>()

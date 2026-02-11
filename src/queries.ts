@@ -26,3 +26,21 @@ export function getMonthlySummary(
     total: number
   }>
 }
+
+export function getAllTransactions(userId: string) {
+  return db.prepare(`
+    SELECT id, type, amount, category, reason, is_family, date, created_at
+    FROM transactions
+    WHERE user_id = ?
+    ORDER BY date DESC, id DESC
+  `).all(userId) as Array<{
+    id: number
+    type: string
+    amount: number
+    category: string
+    reason: string | null
+    is_family: number
+    date: string
+    created_at: string
+  }>
+}
