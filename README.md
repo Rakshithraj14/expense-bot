@@ -5,7 +5,7 @@ Track income and expenses via Telegram. Nami-themed: log with natural language, 
 ## Requirements
 
 - **BOT_TOKEN** — Telegram bot token (required)
-- **DATABASE_URL** — Optional. Postgres URI for Supabase; 
+- **DATABASE_URL** — Postgres URI for Supabase; 
 
 ## Run
 
