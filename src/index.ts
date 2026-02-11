@@ -1,7 +1,7 @@
 import { createBot } from './telegram'
 import { parseInput } from './parser'
 import { db } from './db'
-import { getBalance, getMonthlySummary } from './queries'
+import { getBalance, getMonthlySummary, getAllTransactions } from './queries'
 
 const LOCK_FILE = 'data.bot.lock'
 
@@ -93,6 +93,22 @@ Summary (${months} months)
 
 ${body}
 `.trim(), { parse_mode: 'Markdown' })
+      return
+    }
+
+    if (lower === 'download' || lower === 'export' || lower === 'csv') {
+      const rows = getAllTransactions(chatId)
+      const escape = (v: string | number | null) => {
+        if (v == null) return ''
+        const s = String(v)
+        if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`
+        return s
+      }
+      const header = 'id,type,amount,category,reason,is_family,date,created_at'
+      const lines = rows.map(r => [r.id, r.type, r.amount, r.category, r.reason ?? '', r.is_family, r.date, r.created_at].map(escape).join(','))
+      const csv = [header, ...lines].join('\n')
+      const filename = `expenses-${new Date().toISOString().slice(0, 10)}.csv`
+      await bot.sendDocument(chatId, csv, filename)
       return
     }
 
