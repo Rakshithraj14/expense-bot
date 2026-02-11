@@ -225,19 +225,17 @@ Here\'s your map. Use it well.
       parsed.paymentMode
     )
 
+    const familyLine = parsed.isFamily ? '' : 'Family: No\n'
+    const paymentLine = parsed.paymentMode === 'CASH' ? 'Payment: CASH\n' : ''
     await bot.sendMessage(chatId, `
-*Logged*${name ? ` — ${name}` : ''}
+*Captain*${name ? ` ${name}` : ''}
 
 Amount: ${parsed.amount} berries
 Category: ${parsed.category}
 Reason: ${parsed.reason ?? 'N/A'}
 Type: ${parsed.type}
-Family: ${parsed.isFamily ? 'Yes' : 'No'}
-Date: ${parsed.date}
-Payment: ${parsed.paymentMode}
-
-Noted. I\'m watching the wallet.
-`.trim(), { parse_mode: 'Markdown' })
+${familyLine}Date: ${parsed.date}
+${paymentLine}`.trim(), { parse_mode: 'Markdown' })
 
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err)
