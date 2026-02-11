@@ -5,5 +5,7 @@
   "scripts": {
     "dev": "bun src/index.ts"
   },
-  "dependencies": {}
+  "dependencies": {
+    "postgres": "^3.4.5"
+  }
 }

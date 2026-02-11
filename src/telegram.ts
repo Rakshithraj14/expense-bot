@@ -31,7 +31,15 @@ export function createBot(token: string) {
           offset: offset || undefined,
           timeout: 30,
         })
-        const result = res.result as Array<{ update_id: number; message?: { message_id: number; chat: { id: number }; text?: string } }> | undefined
+        const result = res.result as Array<{
+          update_id: number
+          message?: {
+            message_id: number
+            chat: { id: number }
+            text?: string
+            from?: { first_name?: string }
+          }
+        }> | undefined
         if (Array.isArray(result)) {
           for (const u of result) {
             offset = Math.max(offset, u.update_id + 1)
