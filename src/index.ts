@@ -48,7 +48,8 @@ async function handleMessage(chatId: string, text: string, first_name?: string) 
   try {
     await ensureUser(chatId, first_name ?? 'User')
     name = await getDisplayName(chatId)
-    const lower = text.toLowerCase()
+    const lower = text?.toLowerCase().trim() ?? '';
+
 
     const n = name ? `, ${name}` : ''
 
